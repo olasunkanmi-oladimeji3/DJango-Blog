@@ -1,0 +1,68 @@
+<!-- Navigation -->
+ <nav class="navbar navbar-expand-lg navbar-light fixed-top " id="mainNav">
+   <div class="container">
+     <a class="navbar-brand" href="/">Start Bootstrap</a>
+
+     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+       Menu
+       <i class="fas fa-bars"></i>
+     </button>
+     <div class="collapse navbar-collapse" id="navbarText">
+       <ul class="navbar-nav m-auto" >
+         <li class="nav-item">
+           <a class="nav-link" href="/">Home</a>
+         </li>
+         <li class="nav-item">
+           <a class="nav-link" href="{% url 'core:about' %}">About</a>
+         </li>
+      <!--   <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Category
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>-->
+         <li class="nav-item">
+           <a class="nav-link" href="{% url 'core:contact' %}">Contact</a>
+         </li>
+       </ul>
+
+       <ul class="navbar-nav nav-flex-icon">
+         {% if user.is_authenticated %}
+           {% if request.user.is_superuser %}
+           <li class="nav-item"><a class=" nav-link" href="{% url 'core:post_new' %}">New Post</a></li>
+           <li class="nav-item"><a class="nav-link" href="{% url 'core:post_draft_list' %}">Drafts</a></li>
+
+
+            {% endif %}
+            <li class="nav-item"> <a class="navbar-text">Hi, {{user.username}}</a></li>
+
+
+          <li class="nav-item">
+            <a href="{% url 'account_logout' %}" class="nav-link border border-light rounded waves-effect">
+              <i class="fa fa-user p-1" aria-hidden="true"></i>Logout
+            </a>
+          </li>
+         {% else %}
+         <li class="nav-item">
+           <a href="{% url 'account_signup' %}" class="nav-link border border-light rounded waves-effect">
+             <i class="fa fa-user mr-2" aria-hidden="true"></i>Sign up
+           </a>
+         </li>
+
+         <li class="nav-item">
+           <a href="{% url 'account_login' %}" class="nav-link waves-effect" >
+              Login
+           </a>
+         </li>
+         {% endif %}
+       </ul>
+     </div>
+
+
+   </div>
+ </nav>

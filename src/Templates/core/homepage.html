@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<main>
+
+
+
+  <!-- Main Content -->
+  <div class="container">
+
+
+  <div class="row">
+    <div class="col-md-8">
+      {% for post in post_list %}
+
+          <div class="post-preview">
+         <a href="{{post.get_absolute_url}}">
+           <h2 class="post-title">
+             {{post.title}}
+           </h2>
+           </a>
+           <h5 class="post-subtitle">
+             {{post.context|safe|truncatewords:"50"|linebreaks }}
+             <a href="{{post.get_absolute_url}}">read more</a>
+           </h5>
+
+           <div class="d-inline-flex">
+             <p class=" ">Posted by
+               <a href="#" class="text-decoration-none">{{post.author}}, </a>
+               {{post.published_date|date:"D M Y"}}
+             </p>
+             <p class="justify-content-end">
+               <a class="p-2 text-decoration-none" href="{% url 'core:post_detail' pk=post.pk %}">
+                 <span><img height="18px" src="{% static 'img/speech-bubble.png' %}" alt=""></span> Comment : {{ post.approve_comments.count }}</a></p>
+           </div>
+
+
+       </div>
+       <hr>
+      {% endfor %}
+      {% include 'include/paginate.html' %}
+    
+  <div class="col-md-4 ">
+
+    <h1 class="d-flex justify-content-center">Recent Post</h1>
+
+    <div class="list-group">
+      {% for post in post_list %}
+      <a href="{{post.get_absolute_url}}" class="list-group-item list-group-item-action">{{post.title}}
+        <br><span>Posted by: {{post.author}},</span> <span>{{post.published_date|date:"D M Y"}}</span></a>
+
+  {% endfor %}
+
+
+
+</div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  <hr>
+</main>
+{% endblock content %}

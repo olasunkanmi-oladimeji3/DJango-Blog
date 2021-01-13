@@ -1,0 +1,33 @@
+{% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li>
+        <div class="clearfix">
+          <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary float-right">&#8592; Latest Posts</a>
+        </div></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><div class="clearfix">
+          <span ><h5></h5> </span>
+        </div></li>
+      {% else %}
+
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li><div class="clearfix">
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary float-right">Older Posts &rarr;</a>
+      </div></li>
+    {% else %}
+
+    {% endif %}
+  </ul>
+{% endif %}
+
+
+</div>

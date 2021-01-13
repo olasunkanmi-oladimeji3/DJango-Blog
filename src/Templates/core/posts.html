@@ -1,0 +1,87 @@
+{% extends "core.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Page Header -->
+  <header class="masthead" style="background-image: url({% static 'img/post-bg.jpg'%})">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>{{post.title}}</h1>
+            <span class="meta">Posted by
+              <a href="#">{{post.author}},</a>
+              {{post.published_date|date:"D M Y"}}</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <h2>{{post.title}}</h2>
+          <p>{{post.context|safe|linebreaks }}.</p>
+
+          {% if request.user.is_superuser %}
+          <div class="">
+            {% if user.is_authenticated %}
+            <a class="btn btn-primary" href="{% url 'core:post_edit' pk=post.pk %}"><span class="fa fa-pencil">Edit</span></a>
+            <a class="btn btn-primary" href="{% url 'core:post_remove' pk=post.pk %}"><span class="fa fa-remove">Delete</span></a>
+        {% endif %}
+
+        {% if post.published_date %}
+           <div class="date postdate">
+               {{ post.published_date }}
+           </div>
+
+       {% else %}
+           <a class="btn btn-outline-dark" href="{% url 'core:post_publish' pk=post.pk %}">Publish</a>
+       {% endif %}
+          </div>
+          {% endif %}
+        </div>
+
+        <hr>
+  <a class="btn btn-primary btn-comment" href="{% url 'core:add_comment_to_post' pk=post.pk %}">Add comment </a>
+  <div class="container">
+
+  {% for comment in post.comments.all %}
+  <br>
+  <div class="">
+
+    {% if user.is_authenticated or comment.approved_comment %}
+
+            <p class="">Posted by: <strong>{{ comment.author }}</strong>
+              <br>{{ comment.created_date }}
+              <br>{{ comment.text }}
+              </p>
+
+            {% if not comment.approved_comment %}
+                {% if request.user.is_superuser %}
+                <a class="btn btn-primary" href="{% url 'core:comment_remove' pk=comment.pk %}"><span >&#128473;</span></a>
+                <a class="btn btn-primary" href="{% url 'core:comment_approve' pk=comment.pk %}"><span >&#10003;</span></a>
+                {% endif %}
+            {% endif %}
+            <hr>
+
+
+    {% endif %}
+  </div>
+
+  {% empty %}
+      <p>No comments posted.</p>
+  {% endfor %}
+      </div>
+    </div>
+  </article>
+
+  <hr>
+
+
+{% endblock content %}
